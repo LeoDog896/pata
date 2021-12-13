@@ -12,6 +12,11 @@
 
 	let typedMessage = ""
 	let messages: Message[] = []
+	let namespace = "aaaaa"
+
+	const gun = Gun(['https://gun-manhattan.herokuapp.com/gun']);
+	$: gun.get(namespace).get("messages").put(messages)
+	gun.get(namespace).get("messages").on(newMessages => messages = newMessages)
 
 	const inputMessage = (event: KeyboardEvent) => {
 		if (event.key == "Enter") {
@@ -19,8 +24,6 @@
 			typedMessage = ""
 		}
 	}
-
-	const gun = Gun(['https://gun-manhattan.herokuapp.com/gun']);
 </script>
 
 <main>
