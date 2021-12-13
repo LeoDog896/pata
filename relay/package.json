@@ -1,0 +1,21 @@
+{
+  "name": "pata-relay",
+  "version": "1.0.0",
+  "description": "simple host peer relay for pata",
+  "main": "src/server.ts",
+  "scripts": {
+    "build": "tsc",
+    "start": "nodemon src/server.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "gun": "^0.2020.1235"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.12",
+    "nodemon": "^2.0.15",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.3"
+  }
+}

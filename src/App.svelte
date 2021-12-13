@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { customStore } from "./gunScore"
-	import Gun from 'gun'
+	import { customStore } from "./gunStore"
+	import Gun from "gun/gun"
 
-	const namespace = "aaaaa"
-	const gun = Gun(['https://gun-manhattan.herokuapp.com/gun']);
-	const messages = customStore(gun.get(namespace).get(messages).map(), {
+	const namespace = "alpha-0.0.1"
+	const gun = Gun();
+	const messages = customStore(gun.get(namespace).get("messages").map(), {
 		add: content => ref.set({ content, author: {} }),
 		delete: key => ref.get(key).put(null)
 	})
