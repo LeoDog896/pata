@@ -4,9 +4,10 @@
 
 	const namespace = "alpha-0.0.1"
 	const gun = Gun();
-	const messages = customStore(gun.get(namespace).get("messages").map(), {
-		add: content => ref.set({ content, author: {} }),
-		delete: key => ref.get(key).put(null)
+	const messageRef = gun.get(namespace).get("messages")
+	const messages = customStore(messageRef.map(), {
+		add: (content: string) => messageRef.set({ content, author: {} }),
+		delete: (key: string) => messageRef.get(key).put(null)
 	})
 
 	interface User {

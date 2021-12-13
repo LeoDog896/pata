@@ -1,4 +1,11 @@
-export function customStore(ref, methods = {}) {
+type AnyFunction = (...args: any[]) => void
+
+interface CustomStore {
+	subscribe: (subscriber: any) => void
+	[index: string]: AnyFunction
+}
+
+export function customStore(ref, methods: { [index: string]: AnyFunction } = {}): CustomStore {
 	let store: { key?: string, data?: any } = {}
 	let subscribers = []
   
