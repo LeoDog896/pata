@@ -1,10 +1,33 @@
 <script lang="ts">
-	export let name: string;
+	import Gun from 'gun'
+
+	interface User {
+
+	}
+
+	interface Message {
+		author: User;
+		content: string;
+	}
+
+	let typedMessage = ""
+	let messages: Message[] = []
+
+	const inputMessage = (event: KeyboardEvent) => {
+		if (event.key == "Enter") {
+			messages = [...messages, { author: {}, content: typedMessage }]
+			typedMessage = ""
+		}
+	}
+
+	const gun = Gun(['https://gun-manhattan.herokuapp.com/gun']);
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+	{#each messages as message}
+		<p>{message.content}</p>
+	{/each}
+	<input bind:value={typedMessage} on:keyup={inputMessage} placeholder="Type your message; Press enter to send">
 </main>
 
 <style>
@@ -13,13 +36,6 @@
 		padding: 1em;
 		max-width: 240px;
 		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
 	}
 
 	@media (min-width: 640px) {
