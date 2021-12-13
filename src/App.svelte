@@ -1,5 +1,13 @@
 <script lang="ts">
+	import { customStore } from "./gunScore"
 	import Gun from 'gun'
+
+	const namespace = "aaaaa"
+	const gun = Gun(['https://gun-manhattan.herokuapp.com/gun']);
+	const messages = customStore(gun.get(namespace).get(messages).map(), {
+		add: content => ref.set({ content, author: {} }),
+		delete: key => ref.get(key).put(null)
+	})
 
 	interface User {
 
@@ -11,23 +19,17 @@
 	}
 
 	let typedMessage = ""
-	let messages: Message[] = []
-	let namespace = "aaaaa"
-
-	const gun = Gun(['https://gun-manhattan.herokuapp.com/gun']);
-	$: gun.get(namespace).get("messages").put(messages)
-	gun.get(namespace).get("messages").on(newMessages => messages = newMessages)
 
 	const inputMessage = (event: KeyboardEvent) => {
 		if (event.key == "Enter") {
-			messages = [...messages, { author: {}, content: typedMessage }]
+			messages.add(typedMessage)
 			typedMessage = ""
 		}
 	}
 </script>
 
 <main>
-	{#each messages as message}
+	{#each $messages as message}
 		<p>{message.content}</p>
 	{/each}
 	<input bind:value={typedMessage} on:keyup={inputMessage} placeholder="Type your message; Press enter to send">
