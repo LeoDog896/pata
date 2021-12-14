@@ -1,14 +1,9 @@
 <script lang="ts">
-	import { customStore } from "./gunStore"
-	import Gun from "gun/gun"
+	import { gun } from "./gunStore"
 
 	const namespace = "alpha-0.0.1"
-	const gun = Gun();
-	const messageRef = gun.get(namespace).get("messages")
-	const messages = customStore(messageRef.map(), {
-		add: (content: string) => messageRef.set({ content, author: {} }),
-		delete: (key: string) => messageRef.get(key).put(null)
-	})
+	const messages = gun.get(namespace).get("messages")
+	const mappedMessages = messages.map()
 
 	interface User {
 
@@ -23,14 +18,14 @@
 
 	const inputMessage = (event: KeyboardEvent) => {
 		if (event.key == "Enter") {
-			messages.add(typedMessage)
+			messages.put({author: {}, content: typedMessage})
 			typedMessage = ""
 		}
 	}
 </script>
 
 <main>
-	{#each $messages as message}
+	{#each $mappedMessages as message}
 		<p>{message.content}</p>
 	{/each}
 	<input bind:value={typedMessage} on:keyup={inputMessage} placeholder="Type your message; Press enter to send">
